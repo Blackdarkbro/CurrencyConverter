@@ -8,6 +8,7 @@
 namespace app\assets;
 
 use yii\web\AssetBundle;
+use yii\web\View;
 
 /**
  * Main application asset bundle.
@@ -23,6 +24,10 @@ class AppAsset extends AssetBundle
         'css/site.css',
     ];
     public $js = [
+        'js/converter.js'
+    ];
+    public $jsOptions = [
+        'position' => View::POS_END
     ];
     public $depends = [
         'yii\web\YiiAsset',

@@ -1,53 +1,32 @@
 <?php
 
-/** @var yii\web\View $this */
+use yii\helpers\Html;
 
-$this->title = 'My Yii Application';
+$this->title = 'Converter';
 ?>
+
 <div class="site-index">
 
-    <div class="jumbotron text-center bg-transparent mt-5 mb-5">
-        <h1 class="display-4">Congratulations!</h1>
-
-        <p class="lead">You have successfully created your Yii-powered application.</p>
-
-        <p><a class="btn btn-lg btn-success" href="https://www.yiiframework.com">Get started with Yii</a></p>
-    </div>
-
-    <div class="body-content">
-
-        <div class="row">
-            <div class="col-lg-4 mb-3">
-                <h2>Heading</h2>
-
-                <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et
-                    dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip
-                    ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu
-                    fugiat nulla pariatur.</p>
-
-                <p><a class="btn btn-outline-secondary" href="https://www.yiiframework.com/doc/">Yii Documentation &raquo;</a></p>
-            </div>
-            <div class="col-lg-4 mb-3">
-                <h2>Heading</h2>
-
-                <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et
-                    dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip
-                    ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu
-                    fugiat nulla pariatur.</p>
-
-                <p><a class="btn btn-outline-secondary" href="https://www.yiiframework.com/forum/">Yii Forum &raquo;</a></p>
-            </div>
-            <div class="col-lg-4">
-                <h2>Heading</h2>
-
-                <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et
-                    dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip
-                    ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu
-                    fugiat nulla pariatur.</p>
-
-                <p><a class="btn btn-outline-secondary" href="https://www.yiiframework.com/extensions/">Yii Extensions &raquo;</a></p>
+    <div class="xxx-currency-grid__block xxx-currency-grid__block--separately ">
+        <div class="xxx-line-h-1 xxx-mb-15"><a href="https://bankiros.ru/converter" class="xxx-text-bold xxx-fs-18 xxx-g-link xxx-g-link--no-bd">Конвертер валют ЦБ РФ</a></div>
+        <div class="xxx-tab-list-wrap xxx-tab-list-wrap--pt-0 xxx-tab-list-wrap--only-border-light xxx-mb-15">
+            <ul class="xxx-tab__list xxx-tab__list--fix-scrollbar xxx-tab__list--overflow-auto">
+                <li class="xxx-tab__item xxx-tab__item--p-b-5 active" data-tab="today"><span class="xxx-fs-14"> Сегодня </span></li>
+            </ul>
+        </div>
+        <div class="xxx-tab__content">
+            <div class="xxx-tab__body active" id="today">
+                <div class="blk-grid-content blk-grid-content--gap-10 ">
+                    <?php foreach ($currencies as $currency): ?>
+                        <div class="xxx-input-converter ">
+                        <input value="<?= $currency['value'] ?>" data-input-converter="" data-cur-name="<?= $currency['code'] ?>" data-csrf="<?=Yii::$app->request->getCsrfToken()?>" data-cur-multiplier="1" type="tel" inputmode="decimal" class="xxx-input-converter__input xxx-full-width">
+                        <span class="xxx-input-converter__before-text"> <?= $currency['code'] ?> </span>
+                        <span class="xxx-input-converter__close" data-input-converter-clear="">x</span>
+                        <?= Html::img("@web/images/countries/{$currency['code']}.svg", ['alt' => "{$currency['code']}-icon", 'class' => 'xxx-input-converter__img']);?>
+                    </div>
+                    <?php endforeach; ?>
+                </div>
             </div>
         </div>
-
     </div>
 </div>

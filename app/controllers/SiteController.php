@@ -9,6 +9,9 @@ use yii\web\Response;
 use yii\filters\VerbFilter;
 use app\models\LoginForm;
 use app\models\ContactForm;
+use app\models\CurrencyCourseValue;
+use app\models\CurrencyCourseValueFactory;
+use components\helpers\CurrencyCourseHelper;
 
 class SiteController extends Controller
 {
@@ -61,7 +64,32 @@ class SiteController extends Controller
      */
     public function actionIndex()
     {
-        return $this->render('index');
+        CurrencyCourseValue::deleteAll();
+
+        $currencies = CurrencyCourseHelper::CurrencyCoursesCoefficients();
+        $currencyCourseValueFactory = new CurrencyCourseValueFactory();
+
+        $currencyCourseValueRus = $currencyCourseValueFactory->create('RUS', 100);
+        $currencyCourseValueRus->save();
+        $result[] = [
+            'code' => $currencyCourseValueRus->code,
+            'value' => $currencyCourseValueRus->value
+        ];
+
+        foreach ($currencies as $currency) {
+            if (in_array($currency->CharCode, CurrencyCourseValue::getActiveСurrencies())) {
+                $currencyValue = number_format((CurrencyCourseValue::RUS_NOMINAL * $currency->Nominal) / (float)str_replace(",", ".", $currency->Value), 4);
+                $currencyCourseValue = $currencyCourseValueFactory->create($currency->CharCode, $currencyValue);
+                $currencyCourseValue->save();
+
+                $result[] = [
+                    'code' => $currencyCourseValue->code,
+                    'value' => $currencyCourseValue->value
+                ];
+            }
+        }
+
+        return $this->render('index', ['currencies' => $result]);
     }
 
     /**
